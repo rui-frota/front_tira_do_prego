@@ -58,13 +58,13 @@
             </b-row>
             <b-row v-if="mode === 'load' || mode === 'save' ">
                 <b-col md="12" sm="6">
-                    <b-button block variant="primary"
+                    <b-button block variant="primary" :disabled="!isFormValid"
                         @click="save">Salvar</b-button>
                 </b-col>
             </b-row>
             <b-row v-else-if="mode === 'edit'">
                 <b-col md="6" sm="6">
-                    <b-button block variant="primary"
+                    <b-button block variant="primary" :disabled="!isFormValid"
                         @click="save">Salvar</b-button>
                 </b-col>
                 <b-col md="6" sm="6">
@@ -112,6 +112,19 @@ export default {
                 { key: 'admin', label: 'Administrador', sortable: true },
                 { key: 'actions', label: 'Ações' }
             ]
+        }
+    },
+    computed: {
+        isFormValid() {
+            if (this.mode === 'remove') return true;
+            return this.usuarioEdit.login && 
+                   this.usuarioEdit.login.trim() !== '' && 
+                   this.usuarioEdit.email && 
+                   this.usuarioEdit.email.trim() !== '' && 
+                   this.usuarioEdit.password && 
+                   this.usuarioEdit.password.trim() !== '' && 
+                   this.usuarioEdit.passwordConfirm && 
+                   this.usuarioEdit.passwordConfirm.trim() !== ''
         }
     },
     methods: {

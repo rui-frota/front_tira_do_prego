@@ -4,17 +4,17 @@
 			<img src="@/assets/logo.png" width="100" alt="Logo" />
             <div class="auth-title">{{ showSignup ? 'Cadastro' : 'Login' }}</div>
 
-            <input v-model="usuario.login" name="login" type="text" placeholder="Login">
-            <input v-if="showSignup" v-model="usuario.email" name="email" type="email" placeholder="E-mail">
-            <input v-model="usuario.password" name="password" type="password" placeholder="Senha">
+            <input v-model="usuario.login" name="login" type="text" placeholder="Login" required>
+            <input v-if="showSignup" v-model="usuario.email" name="email" type="email" placeholder="E-mail" required>
+            <input v-model="usuario.password" name="password" type="password" placeholder="Senha" required>
             <input v-if="showSignup" v-model="usuario.passwordConfirm"
-                type="password" placeholder="Confirme a Senha">
-            <button v-if="showSignup" @click="signup">Registrar</button>
-            <button v-else @click="signin">Entrar</button>
+                type="password" placeholder="Confirme a Senha" required>
+            <button v-if="showSignup" @click="signup" :disabled="!isSignupFormValid">Registrar</button>
+            <button v-else @click="signin" :disabled="!isSigninFormValid">Entrar</button>
 
             <a href @click.prevent="showSignup = !showSignup">
                 <span v-if="showSignup">Já tem cadastro? Acesse o Login!</span>
-                <span v-else>Não tem cadastro? Registre-se aqui!</span>
+                <span v-else">Não tem cadastro? Registre-se aqui!</span>
             </a>
         </div>
     </div>
@@ -30,6 +30,24 @@ export default {
         return {
             showSignup: false,
             usuario: {}
+        }
+    },
+    computed: {
+        isSigninFormValid() {
+            return this.usuario.login && 
+                   this.usuario.login.trim() !== '' && 
+                   this.usuario.password && 
+                   this.usuario.password.trim() !== ''
+        },
+        isSignupFormValid() {
+            return this.usuario.login && 
+                   this.usuario.login.trim() !== '' && 
+                   this.usuario.email && 
+                   this.usuario.email.trim() !== '' && 
+                   this.usuario.password && 
+                   this.usuario.password.trim() !== '' && 
+                   this.usuario.passwordConfirm && 
+                   this.usuario.passwordConfirm.trim() !== ''
         }
     },
     methods: {
@@ -99,6 +117,12 @@ export default {
         background-color: #2460ae;
         color: #FFF;
         padding: 5px 15px;
+    }
+
+    .auth-modal button:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
     }
 
     .auth-modal a {

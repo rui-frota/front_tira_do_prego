@@ -11,41 +11,41 @@
 					</b-form-group>
 				</b-col>
 				<b-col md="6" sm="12">
-					<b-form-group label="Latitude:" label-for="category-name">
-						<b-form-input id="category-name" type="text"
-							v-model="prestador.latitude"
+					<b-form-group label="Latitude:" label-for="category-latitude">
+						<b-form-input id="category-latitude" type="text"
+							v-model="prestador.latitude" required
 							placeholder="Latitude" />
 					</b-form-group>
 				</b-col>
 			</b-row>
 			<b-row v-if="mode != 'remove'">
 				<b-col md="6" sm="12">
-					<b-form-group label="Telefone:" label-for="category-name">
-					<b-form-input id="category-name" type="text"
-						v-model="prestador.telefone"
+					<b-form-group label="Telefone:" label-for="category-telefone">
+					<b-form-input id="category-telefone" type="text"
+						v-model="prestador.telefone" required
 						placeholder="Telefone" />
 					</b-form-group>
 				</b-col>
 				<b-col md="6" sm="12">
-					<b-form-group label="Longitude:" label-for="category-name">
-						<b-form-input id="category-name" type="text"
-							v-model="prestador.longitude"
+					<b-form-group label="Longitude:" label-for="category-longitude">
+						<b-form-input id="category-longitude" type="text"
+							v-model="prestador.longitude" required
 							placeholder="Longitude" />
 					</b-form-group>
 				</b-col>
 			</b-row>
 			<b-row v-if="mode != 'remove'">
 				<b-col md="6" sm="12">
-					<b-form-group label="Horario:" label-for="category-name">
-						<b-form-input id="category-name" type="text"
+					<b-form-group label="Horario:" label-for="category-horario">
+						<b-form-input id="category-horario" type="text"
 							v-model="prestador.horario" required
 							placeholder="Horario de funcionamento" />
 					</b-form-group>
 				</b-col>
 				<b-col md="6" sm="12">
-					<b-form-group label="Tipo" id="category-tipo" label-for="category-name">
-						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="B">Borracharia</b-form-radio>
-						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="R">Reboque</b-form-radio>
+					<b-form-group label="Tipo" id="category-tipo" label-for="category-tipo">
+						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="B" required>Borracharia</b-form-radio>
+						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="R" required>Reboque</b-form-radio>
 					</b-form-group>
 				</b-col>
 			</b-row>
@@ -83,13 +83,13 @@
 			</b-row>
 			<b-row v-if="mode === 'load' || mode === 'save' ">
 				<b-col md="12" sm="6">
-					<b-button block variant="primary"
+					<b-button block variant="primary" :disabled="!isFormValid"
 				@click="save">Salvar</b-button>
 				</b-col>
 			</b-row>
 			<b-row v-else-if="mode === 'edit'">
 				<b-col md="6" sm="6">
-					<b-button block variant="primary"
+					<b-button block variant="primary" :disabled="!isFormValid"
 						@click="save">Salvar</b-button>
 				</b-col>
 				<b-col md="6" sm="6">
@@ -140,6 +140,23 @@ export default {
 				{ key: 'tipo', label: 'Tipo' },
 				{ key: 'actions', label: 'Ações' }
 			]
+		}
+	},
+	computed: {
+		isFormValid() {
+			if (this.mode === 'remove') return true;
+			return this.prestador.nome && 
+				   this.prestador.nome.trim() !== '' && 
+				   this.prestador.latitude && 
+				   this.prestador.latitude.trim() !== '' && 
+				   this.prestador.telefone && 
+				   this.prestador.telefone.trim() !== '' && 
+				   this.prestador.longitude && 
+				   this.prestador.longitude.trim() !== '' && 
+				   this.prestador.horario && 
+				   this.prestador.horario.trim() !== '' && 
+				   this.prestador.tipo && 
+				   this.prestador.tipo.trim() !== ''
 		}
 	},
 	methods: {
