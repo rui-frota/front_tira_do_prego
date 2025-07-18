@@ -104,7 +104,13 @@ export default {
     data: function() {
         return {
             mode: 'load',
-            usuarioEdit: {},
+            usuarioEdit: {
+                login: '',
+                email: '',
+                password: '',
+                passwordConfirm: '',
+                admin: false
+            },
             usuarios: [],
             fields: [
                 { key: 'login', label: 'Login', sortable: true },
@@ -117,14 +123,14 @@ export default {
     computed: {
         isFormValid() {
             if (this.mode === 'remove') return true;
-            return this.usuarioEdit.login && 
+            return !!(this.usuarioEdit.login && 
                    this.usuarioEdit.login.trim() !== '' && 
                    this.usuarioEdit.email && 
                    this.usuarioEdit.email.trim() !== '' && 
                    this.usuarioEdit.password && 
                    this.usuarioEdit.password.trim() !== '' && 
                    this.usuarioEdit.passwordConfirm && 
-                   this.usuarioEdit.passwordConfirm.trim() !== ''
+                   this.usuarioEdit.passwordConfirm.trim() !== '')
         }
     },
     methods: {
@@ -136,7 +142,13 @@ export default {
         },
         reset() {
             this.mode = 'save'
-            this.usuarioEdit = {}
+            this.usuarioEdit = {
+                login: '',
+                email: '',
+                password: '',
+                passwordConfirm: '',
+                admin: false
+            }
             this.loadUsuarios()
         },
         save(mode = 'save') {

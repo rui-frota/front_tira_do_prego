@@ -129,7 +129,14 @@ export default {
 	data: function() {
 		return {
 			mode: 'load',
-			prestador: {},
+			prestador: {
+				nome: '',
+				latitude: '',
+				telefone: '',
+				longitude: '',
+				horario: '',
+				tipo: ''
+			},
 			prestadores: [],
 			fields: [
 				{ key: 'nome', label: 'Nome', sortable: true },
@@ -145,7 +152,7 @@ export default {
 	computed: {
 		isFormValid() {
 			if (this.mode === 'remove') return true;
-			return this.prestador.nome && 
+			return !!(this.prestador.nome && 
 				   this.prestador.nome.trim() !== '' && 
 				   this.prestador.latitude && 
 				   this.prestador.latitude.trim() !== '' && 
@@ -156,7 +163,7 @@ export default {
 				   this.prestador.horario && 
 				   this.prestador.horario.trim() !== '' && 
 				   this.prestador.tipo && 
-				   this.prestador.tipo.trim() !== ''
+				   this.prestador.tipo.trim() !== '')
 		}
 	},
 	methods: {
@@ -171,7 +178,14 @@ export default {
 		},
 		reset() {
 			this.mode = 'save'
-			this.prestador = {}
+			this.prestador = {
+				nome: '',
+				latitude: '',
+				telefone: '',
+				longitude: '',
+				horario: '',
+				tipo: ''
+			}
 			this.loadPrestadores()
 		},
 		save(mode = 'save') {

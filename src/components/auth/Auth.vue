@@ -14,7 +14,7 @@
 
             <a href @click.prevent="showSignup = !showSignup">
                 <span v-if="showSignup">Já tem cadastro? Acesse o Login!</span>
-                <span v-else">Não tem cadastro? Registre-se aqui!</span>
+                <span v-else>Não tem cadastro? Registre-se aqui!</span>
             </a>
         </div>
     </div>
@@ -29,25 +29,30 @@ export default {
     data: function() {
         return {
             showSignup: false,
-            usuario: {}
+            usuario: {
+                login: '',
+                email: '',
+                password: '',
+                passwordConfirm: ''
+            }
         }
     },
     computed: {
         isSigninFormValid() {
-            return this.usuario.login && 
+            return !!(this.usuario.login && 
                    this.usuario.login.trim() !== '' && 
                    this.usuario.password && 
-                   this.usuario.password.trim() !== ''
+                   this.usuario.password.trim() !== '')
         },
         isSignupFormValid() {
-            return this.usuario.login && 
+            return !!(this.usuario.login && 
                    this.usuario.login.trim() !== '' && 
                    this.usuario.email && 
                    this.usuario.email.trim() !== '' && 
                    this.usuario.password && 
                    this.usuario.password.trim() !== '' && 
                    this.usuario.passwordConfirm && 
-                   this.usuario.passwordConfirm.trim() !== ''
+                   this.usuario.passwordConfirm.trim() !== '')
         }
     },
     methods: {
