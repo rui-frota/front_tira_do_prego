@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '@/components/home/Home'
 import AdminPages from '@/components/admin/AdminPages'
-import Auth from '@/components/auth/Auth'
+import Auth from '@/components/admin/AdminPages'
 
 // import { usuarioKey } from '@/global'
 

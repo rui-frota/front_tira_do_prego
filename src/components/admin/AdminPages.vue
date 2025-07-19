@@ -20,11 +20,11 @@
 <script>
 import PageTitle from '../template/PageTitle'
 import PrestadorAdmin from './PrestadorAdmin'
-import UsuarioAdmin from './UsuarioAdmin'
+// import UsuarioAdmin from './UsuarioAdmin'
 
 export default {
     name: 'AdminPages',
-    components: { PageTitle, PrestadorAdmin, UsuarioAdmin }
+    components: { PageTitle, PrestadorAdmin }
 }
 </script>
 
