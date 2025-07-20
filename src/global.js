@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 export const usuarioKey = '__knowledge_user'
-export const baseApiUrl = 'https://apitiradoprego.herokuapp.com'
-// export const baseApiUrl = 'http://localhost:5100'
+// export const baseApiUrl = 'https://apitiradoprego.herokuapp.com'
+export const baseApiUrl = 'http://localhost:3000'
 
 export function showError(e) {
     if(e && e.response && e.response.data) {

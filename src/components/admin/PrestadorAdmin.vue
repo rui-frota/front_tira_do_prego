@@ -1,6 +1,7 @@
+<!-- eslint-disable no-mixed-spaces-and-tabs -->
 <template>
 	<div class="category-admin">
-		<b-form>
+		<b-form @submit.prevent="save">
 			<input id="category-id" type="hidden" v-model="prestador.id" />
 			<b-row v-if="mode != 'remove'">
 				<b-col md="6" sm="12">
@@ -81,17 +82,15 @@
 					</b-form-group>
 				</b-col>
 			</b-row>
-			<b-row v-if="mode === 'load' || mode === 'save' ">
-				<b-col md="12" sm="6">
-					<b-button block variant="primary" :disabled="!isFormValid"
-				@click="save">Salvar</b-button>
-				</b-col>
-			</b-row>
-			<b-row v-else-if="mode === 'edit'">
-				<b-col md="6" sm="6">
-					<b-button block variant="primary" :disabled="!isFormValid"
-						@click="save">Salvar</b-button>
-				</b-col>
+		   <b-row v-if="mode === 'load' || mode === 'save' ">
+			   <b-col md="12" sm="6">
+				   <b-button block variant="primary" type="submit">Salvar</b-button>
+			   </b-col>
+		   </b-row>
+		   <b-row v-else-if="mode === 'edit'">
+			   <b-col md="6" sm="6">
+				   <b-button block variant="primary" type="submit">Salvar</b-button>
+			   </b-col>
 				<b-col md="6" sm="6">
 					<b-button block v-if="mode === 'edit' || mode === 'remove'" @click="reset">Cancelar</b-button>
 				</b-col>
@@ -121,6 +120,7 @@
 </template>
 
 <script>
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { baseApiUrl, showError } from '@/global'
 import axios from 'axios'
 
@@ -152,18 +152,12 @@ export default {
 	computed: {
 		isFormValid() {
 			if (this.mode === 'remove') return true;
-			return !!(this.prestador.nome && 
-				   this.prestador.nome.trim() !== '' && 
-				   this.prestador.latitude && 
-				   this.prestador.latitude.trim() !== '' && 
-				   this.prestador.telefone && 
-				   this.prestador.telefone.trim() !== '' && 
-				   this.prestador.longitude && 
-				   this.prestador.longitude.trim() !== '' && 
-				   this.prestador.horario && 
-				   this.prestador.horario.trim() !== '' && 
-				   this.prestador.tipo && 
-				   this.prestador.tipo.trim() !== '')
+			return this.prestador.nome.trim() !== '' &&
+				   this.prestador.latitude.trim() !== '' &&
+				   this.prestador.telefone.trim() !== '' &&
+				   this.prestador.longitude.trim() !== '' &&
+				   this.prestador.horario.trim() !== '' &&
+				   this.prestador.tipo !== '';
 		}
 	},
 	methods: {
@@ -177,7 +171,7 @@ export default {
 			})
 		},
 		reset() {
-			this.mode = 'save'
+			this.mode = 'load'
 			this.prestador = {
 				nome: '',
 				latitude: '',
