@@ -1,6 +1,7 @@
+<!-- eslint-disable no-mixed-spaces-and-tabs -->
 <template>
 	<div class="category-admin">
-		<b-form>
+		<b-form @submit.prevent="save">
 			<input id="category-id" type="hidden" v-model="prestador.id" />
 			<b-row v-if="mode != 'remove'">
 				<b-col md="6" sm="12">
@@ -11,41 +12,41 @@
 					</b-form-group>
 				</b-col>
 				<b-col md="6" sm="12">
-					<b-form-group label="Latitude:" label-for="category-name">
-						<b-form-input id="category-name" type="text"
-							v-model="prestador.latitude"
+					<b-form-group label="Latitude:" label-for="category-latitude">
+						<b-form-input id="category-latitude" type="text"
+							v-model="prestador.latitude" required
 							placeholder="Latitude" />
 					</b-form-group>
 				</b-col>
 			</b-row>
 			<b-row v-if="mode != 'remove'">
 				<b-col md="6" sm="12">
-					<b-form-group label="Telefone:" label-for="category-name">
-					<b-form-input id="category-name" type="text"
-						v-model="prestador.telefone"
+					<b-form-group label="Telefone:" label-for="category-telefone">
+					<b-form-input id="category-telefone" type="text"
+						v-model="prestador.telefone" required
 						placeholder="Telefone" />
 					</b-form-group>
 				</b-col>
 				<b-col md="6" sm="12">
-					<b-form-group label="Longitude:" label-for="category-name">
-						<b-form-input id="category-name" type="text"
-							v-model="prestador.longitude"
+					<b-form-group label="Longitude:" label-for="category-longitude">
+						<b-form-input id="category-longitude" type="text"
+							v-model="prestador.longitude" required
 							placeholder="Longitude" />
 					</b-form-group>
 				</b-col>
 			</b-row>
 			<b-row v-if="mode != 'remove'">
 				<b-col md="6" sm="12">
-					<b-form-group label="Horario:" label-for="category-name">
-						<b-form-input id="category-name" type="text"
+					<b-form-group label="Horario:" label-for="category-horario">
+						<b-form-input id="category-horario" type="text"
 							v-model="prestador.horario" required
 							placeholder="Horario de funcionamento" />
 					</b-form-group>
 				</b-col>
 				<b-col md="6" sm="12">
-					<b-form-group label="Tipo" id="category-tipo" label-for="category-name">
-						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="B">Borracharia</b-form-radio>
-						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="R">Reboque</b-form-radio>
+					<b-form-group label="Tipo" id="category-tipo" label-for="category-tipo">
+						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="B" required>Borracharia</b-form-radio>
+						<b-form-radio v-model="prestador.tipo" name="category-tipo" value="R" required>Reboque</b-form-radio>
 					</b-form-group>
 				</b-col>
 			</b-row>
@@ -81,17 +82,15 @@
 					</b-form-group>
 				</b-col>
 			</b-row>
-			<b-row v-if="mode === 'load' || mode === 'save' ">
-				<b-col md="12" sm="6">
-					<b-button block variant="primary"
-				@click="save">Salvar</b-button>
-				</b-col>
-			</b-row>
-			<b-row v-else-if="mode === 'edit'">
-				<b-col md="6" sm="6">
-					<b-button block variant="primary"
-						@click="save">Salvar</b-button>
-				</b-col>
+		   <b-row v-if="mode === 'load' || mode === 'save' ">
+			   <b-col md="12" sm="6">
+				   <b-button block variant="primary" type="submit">Salvar</b-button>
+			   </b-col>
+		   </b-row>
+		   <b-row v-else-if="mode === 'edit'">
+			   <b-col md="6" sm="6">
+				   <b-button block variant="primary" type="submit">Salvar</b-button>
+			   </b-col>
 				<b-col md="6" sm="6">
 					<b-button block v-if="mode === 'edit' || mode === 'remove'" @click="reset">Cancelar</b-button>
 				</b-col>
@@ -121,6 +120,7 @@
 </template>
 
 <script>
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { baseApiUrl, showError } from '@/global'
 import axios from 'axios'
 
@@ -129,7 +129,14 @@ export default {
 	data: function() {
 		return {
 			mode: 'load',
-			prestador: {},
+			prestador: {
+				nome: '',
+				latitude: '',
+				telefone: '',
+				longitude: '',
+				horario: '',
+				tipo: ''
+			},
 			prestadores: [],
 			fields: [
 				{ key: 'nome', label: 'Nome', sortable: true },
@@ -140,6 +147,17 @@ export default {
 				{ key: 'tipo', label: 'Tipo' },
 				{ key: 'actions', label: 'Ações' }
 			]
+		}
+	},
+	computed: {
+		isFormValid() {
+			if (this.mode === 'remove') return true;
+			return this.prestador.nome.trim() !== '' &&
+				   this.prestador.latitude.trim() !== '' &&
+				   this.prestador.telefone.trim() !== '' &&
+				   this.prestador.longitude.trim() !== '' &&
+				   this.prestador.horario.trim() !== '' &&
+				   this.prestador.tipo !== '';
 		}
 	},
 	methods: {
@@ -153,8 +171,15 @@ export default {
 			})
 		},
 		reset() {
-			this.mode = 'save'
-			this.prestador = {}
+			this.mode = 'load'
+			this.prestador = {
+				nome: '',
+				latitude: '',
+				telefone: '',
+				longitude: '',
+				horario: '',
+				tipo: ''
+			}
 			this.loadPrestadores()
 		},
 		save(mode = 'save') {
